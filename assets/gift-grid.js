@@ -21,10 +21,6 @@ function initGiftGrid(grid) {
 
   let currentProduct = null;
 
-  /* =========================================
-     OPEN PRODUCT POPUP
-  ========================================== */
-
   async function openProduct(handle) {
     if (!handle) {
       console.error("No product handle found.");
@@ -56,13 +52,10 @@ function initGiftGrid(grid) {
 
       console.log("Product received:", product);
 
-      // Store product
       currentProduct = product;
 
-      // Render EVERYTHING first
       renderProduct(product);
 
-      // NOW open the popup
       modal.classList.add("is-open");
       modal.setAttribute("aria-hidden", "false");
 
@@ -70,7 +63,6 @@ function initGiftGrid(grid) {
     } catch (error) {
       console.error("Product fetch error:", error);
 
-      // Only open popup if there's actually an error
       modalTitle.textContent = "Unable to load product.";
       modalVendor.textContent = "";
       modalPrice.textContent = "";
@@ -85,26 +77,21 @@ function initGiftGrid(grid) {
     }
   }
 
-  /* =========================================
-     RENDER PRODUCT DETAILS
-  ========================================== */
-
   function renderProduct(product) {
-    // TITLE
     modalTitle.textContent = product.title || "";
 
-    // VENDOR
+    /*
+      Vendor intentionally left alone.
+      We are not changing/removing the vendor element.
+    */
     modalVendor.textContent = "";
 
-    // PRICE
     if (product.price != null) {
       modalPrice.textContent = formatMoney(product.price);
     }
 
-    // DESCRIPTION
     modalDescription.innerHTML = product.description || "";
 
-    // IMAGE
     if (product.featured_image) {
       modalImage.src = product.featured_image;
       modalImage.alt = product.title || "";
@@ -113,13 +100,8 @@ function initGiftGrid(grid) {
       modalImage.alt = product.title || "";
     }
 
-    // VARIANTS
     renderVariants(product);
   }
-
-  /* =========================================
-     VARIANTS
-  ========================================== */
 
   function renderVariants(product) {
     variantArea.innerHTML = "";
@@ -128,7 +110,6 @@ function initGiftGrid(grid) {
       return;
     }
 
-    // Always show Color first, then Size
     const colorOption = product.options.find(
       (option) =>
         option.name.toLowerCase() === "color" ||
@@ -139,9 +120,11 @@ function initGiftGrid(grid) {
       (option) => option.name.toLowerCase() === "size",
     );
 
-    /* =========================================
-     COLOR
-  ========================================== */
+    /*
+    ============================================================
+    COLOR
+    ============================================================
+    */
 
     if (colorOption && colorOption.values.length) {
       const group = document.createElement("div");
@@ -157,18 +140,23 @@ function initGiftGrid(grid) {
 
       colorButtons.className = "gift-grid__color-buttons";
 
-      colorOption.values.forEach((value) => {
+      const colorValues = [...colorOption.values].sort((a, b) => {
+        const order = {
+          white: 0,
+          black: 1,
+        };
+
+        return (order[a.toLowerCase()] ?? 2) - (order[b.toLowerCase()] ?? 2);
+      });
+
+      colorValues.forEach((value) => {
         const button = document.createElement("button");
 
         button.type = "button";
         button.className = "gift-grid__color-button";
-
         button.textContent = value;
 
-        // Store the actual color for the visual swatch
         button.style.setProperty("--swatch-color", getColorValue(value));
-
-        button.dataset.color = value;
 
         button.dataset.color = value;
 
@@ -183,7 +171,6 @@ function initGiftGrid(grid) {
 
           button.classList.add("is-selected");
 
-          // Tell the wrapper which button is selected
           const selectedIndex = Array.from(buttons).indexOf(button);
 
           colorButtons.classList.add("has-selection");
@@ -199,6 +186,194 @@ function initGiftGrid(grid) {
 
       variantArea.appendChild(group);
     }
+
+    /*
+    ============================================================
+    SIZE — CUSTOM DROPDOWN
+    ============================================================
+    */
+
+    if (sizeOption && sizeOption.values.length) {
+      const group = document.createElement("div");
+
+      group.className = "gift-grid__variant-group gift-grid__size-group";
+
+      const label = document.createElement("label");
+
+      label.className = "gift-grid__variant-label";
+      label.textContent = "Size";
+
+      /*
+        Main custom dropdown wrapper
+      */
+      const dropdown = document.createElement("div");
+
+      dropdown.className = "gift-grid__size-dropdown";
+
+      /*
+        Selected value is stored here.
+        This replaces the old <select>.value.
+      */
+      dropdown.dataset.selectedValue = "";
+
+      /*
+        Dropdown trigger
+      */
+      const trigger = document.createElement("button");
+
+      trigger.type = "button";
+      trigger.className = "gift-grid__size-dropdown-trigger";
+
+      trigger.setAttribute("aria-haspopup", "listbox");
+      trigger.setAttribute("aria-expanded", "false");
+
+      /*
+        Placeholder / selected value
+      */
+      const valueDisplay = document.createElement("span");
+
+      valueDisplay.className = "gift-grid__size-dropdown-value";
+
+      valueDisplay.textContent = "Choose your size";
+
+      /*
+        Arrow
+      */
+      const arrow = document.createElement("span");
+
+      arrow.className = "gift-grid__size-dropdown-arrow";
+
+      arrow.setAttribute("aria-hidden", "true");
+
+      trigger.appendChild(valueDisplay);
+      trigger.appendChild(arrow);
+
+      /*
+        Dropdown options container
+      */
+      const optionsContainer = document.createElement("div");
+
+      optionsContainer.className = "gift-grid__size-dropdown-options";
+
+      optionsContainer.setAttribute("role", "listbox");
+
+      /*
+        Create each size option dynamically
+      */
+      sizeOption.values.forEach((value) => {
+        const optionButton = document.createElement("button");
+
+        optionButton.type = "button";
+
+        optionButton.className = "gift-grid__size-dropdown-option";
+
+        optionButton.textContent = value;
+
+        optionButton.dataset.value = value;
+
+        optionButton.setAttribute("role", "option");
+
+        optionButton.setAttribute("aria-selected", "false");
+
+        optionButton.addEventListener("click", (event) => {
+          event.stopPropagation();
+
+          /*
+            Store selected size
+          */
+          dropdown.dataset.selectedValue = value;
+
+          /*
+            Update visible text
+          */
+          valueDisplay.textContent = value;
+
+          /*
+            Update selected state
+          */
+          optionsContainer
+            .querySelectorAll(".gift-grid__size-dropdown-option")
+            .forEach((option) => {
+              option.classList.remove("is-selected");
+              option.setAttribute("aria-selected", "false");
+            });
+
+          optionButton.classList.add("is-selected");
+          optionButton.setAttribute("aria-selected", "true");
+
+          /*
+            Close dropdown
+          */
+          dropdown.classList.remove("is-open");
+
+          trigger.setAttribute("aria-expanded", "false");
+        });
+
+        optionsContainer.appendChild(optionButton);
+      });
+
+      /*
+        Toggle dropdown open/closed
+      */
+      trigger.addEventListener("click", (event) => {
+        event.stopPropagation();
+
+        const isOpen = dropdown.classList.contains("is-open");
+
+        // Reset every time the dropdown is opened
+        if (!isOpen) {
+          dropdown.dataset.selectedValue = "";
+          valueDisplay.textContent = "Choose your size";
+
+          optionsContainer
+            .querySelectorAll(".gift-grid__size-dropdown-option")
+            .forEach((option) => {
+              option.classList.remove("is-selected");
+              option.setAttribute("aria-selected", "false");
+            });
+        }
+
+        /*
+          Close any other open dropdown in this grid
+        */
+        grid
+          .querySelectorAll(".gift-grid__size-dropdown.is-open")
+          .forEach((openDropdown) => {
+            if (openDropdown !== dropdown) {
+              openDropdown.classList.remove("is-open");
+
+              const openTrigger = openDropdown.querySelector(
+                ".gift-grid__size-dropdown-trigger",
+              );
+
+              if (openTrigger) {
+                openTrigger.setAttribute("aria-expanded", "false");
+              }
+            }
+          });
+
+        /*
+          Toggle this dropdown
+        */
+        dropdown.classList.toggle("is-open", !isOpen);
+
+        trigger.setAttribute("aria-expanded", String(!isOpen));
+      });
+
+      dropdown.appendChild(trigger);
+      dropdown.appendChild(optionsContainer);
+
+      group.appendChild(label);
+      group.appendChild(dropdown);
+
+      variantArea.appendChild(group);
+    }
+
+    /*
+    ============================================================
+    COLOR HELPER
+    ============================================================
+    */
 
     function getColorValue(colorName) {
       const color = colorName.trim().toLowerCase();
@@ -222,85 +397,55 @@ function initGiftGrid(grid) {
 
       return colors[color] || color;
     }
-
-    /* =========================================
-     SIZE
-  ========================================== */
-
-    if (sizeOption && sizeOption.values.length) {
-      const group = document.createElement("div");
-
-      group.className = "gift-grid__variant-group gift-grid__size-group";
-
-      const label = document.createElement("label");
-
-      label.className = "gift-grid__variant-label";
-      label.textContent = "Size";
-
-      const select = document.createElement("select");
-
-      select.className = "gift-grid__variant-select";
-
-      select.dataset.optionName = "Size";
-
-      // Initial placeholder
-      const placeholder = document.createElement("option");
-
-      placeholder.value = "";
-      placeholder.textContent = "Choose your size";
-      placeholder.selected = true;
-      placeholder.disabled = true;
-
-      select.appendChild(placeholder);
-
-      sizeOption.values.forEach((value) => {
-        const optionElement = document.createElement("option");
-
-        optionElement.value = value;
-        optionElement.textContent = value;
-
-        select.appendChild(optionElement);
-      });
-
-      group.appendChild(label);
-      group.appendChild(select);
-
-      variantArea.appendChild(group);
-    }
   }
 
-  /* =========================================
-     GET SELECTED VARIANT
-  ========================================== */
+  /*
+  ============================================================
+  GET SELECTED VARIANT
+  ============================================================
+  */
 
   function getSelectedVariant() {
     if (!currentProduct) {
       return null;
     }
 
+    /*
+      Selected color
+    */
     const selectedColor = variantArea.querySelector(
       ".gift-grid__color-button.is-selected",
     );
 
-    const sizeSelect = variantArea.querySelector(".gift-grid__variant-select");
+    /*
+      Selected size from our custom dropdown
+    */
+    const sizeDropdown = variantArea.querySelector(".gift-grid__size-dropdown");
 
     const color = selectedColor ? selectedColor.dataset.color : null;
 
-    const size = sizeSelect ? sizeSelect.value : null;
+    const size = sizeDropdown ? sizeDropdown.dataset.selectedValue : null;
 
-    // User must select both
+    /*
+      Both must be selected
+    */
     if (!color || !size) {
       return null;
     }
 
+    /*
+      Find matching Shopify variant
+    */
     return currentProduct.variants.find((variant) => {
       return variant.options.includes(color) && variant.options.includes(size);
     });
   }
 
-  /* =========================================
-     ADD TO CART
-  ========================================== */
+  /*
+  ============================================================
+  ADD TO CART
+  ============================================================
+  */
 
   async function addToCart() {
     if (!currentProduct) {
@@ -325,6 +470,10 @@ function initGiftGrid(grid) {
     try {
       await addCartItem(variant.id, 1);
 
+      /*
+        Existing Black + Medium jacket logic
+        remains unchanged.
+      */
       const shouldAddJacket =
         variant.options &&
         variant.options.includes("Black") &&
@@ -341,15 +490,18 @@ function initGiftGrid(grid) {
       }, 700);
     } catch (error) {
       console.error(error);
+
       message.textContent = "Something went wrong. Please try again.";
     } finally {
       addButton.disabled = false;
     }
   }
 
-  /* =========================================
-     CART REQUEST
-  ========================================== */
+  /*
+  ============================================================
+  SHOPIFY CART
+  ============================================================
+  */
 
   async function addCartItem(variantId, quantity) {
     const root =
@@ -380,10 +532,6 @@ function initGiftGrid(grid) {
     return response.json();
   }
 
-  /* =========================================
-     SPECIAL PRODUCT
-  ========================================== */
-
   async function addSoftWinterJacket() {
     const root =
       window.Shopify && window.Shopify.routes
@@ -409,31 +557,52 @@ function initGiftGrid(grid) {
     await addCartItem(availableVariant.id, 1);
   }
 
-  /* =========================================
-     MONEY
-  ========================================== */
+  /*
+  ============================================================
+  MONEY
+  ============================================================
+  */
 
   function formatMoney(cents) {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "EUR",
-      maximumFractionDigits: 0,
-    }).format(cents / 100);
+    return (cents / 10000).toFixed(2).replace(".", ",") + "€";
   }
 
-  /* =========================================
-     CLOSE MODAL
-  ========================================== */
+  /*
+  ============================================================
+  CLOSE MODAL
+  ============================================================
+  */
 
   function closeModal() {
     modal.classList.remove("is-open");
     modal.setAttribute("aria-hidden", "true");
+
+    /*
+      Also close custom dropdown if it happens
+      to be open.
+    */
+    grid
+      .querySelectorAll(".gift-grid__size-dropdown.is-open")
+      .forEach((dropdown) => {
+        dropdown.classList.remove("is-open");
+
+        const trigger = dropdown.querySelector(
+          ".gift-grid__size-dropdown-trigger",
+        );
+
+        if (trigger) {
+          trigger.setAttribute("aria-expanded", "false");
+        }
+      });
+
     document.body.style.overflow = "";
   }
 
-  /* =========================================
-     CLICK EVENTS
-  ========================================== */
+  /*
+  ============================================================
+  CLICK HANDLING
+  ============================================================
+  */
 
   grid.addEventListener("click", (event) => {
     const productTrigger = event.target.closest(".gift-grid__hotspot");
@@ -444,16 +613,19 @@ function initGiftGrid(grid) {
       console.log("HOTSPOT CLICKED:", handle);
 
       openProduct(handle);
+
       return;
     }
 
     if (event.target.closest(".gift-grid__modal-close")) {
       closeModal();
+
       return;
     }
 
     if (event.target.closest(".gift-grid__modal-overlay")) {
       closeModal();
+
       return;
     }
 
@@ -462,12 +634,70 @@ function initGiftGrid(grid) {
     }
   });
 
-  /* =========================================
-     ESCAPE
-  ========================================== */
+  /*
+  ============================================================
+  CLOSE SIZE DROPDOWN WHEN CLICKING OUTSIDE IT
+  ============================================================
+  */
+
+  document.addEventListener("click", (event) => {
+    const openDropdown = grid.querySelector(
+      ".gift-grid__size-dropdown.is-open",
+    );
+
+    if (!openDropdown) {
+      return;
+    }
+
+    if (!openDropdown.contains(event.target)) {
+      openDropdown.classList.remove("is-open");
+
+      const trigger = openDropdown.querySelector(
+        ".gift-grid__size-dropdown-trigger",
+      );
+
+      if (trigger) {
+        trigger.setAttribute("aria-expanded", "false");
+      }
+    }
+  });
+
+  /*
+  ============================================================
+  ESCAPE KEY
+  ============================================================
+  */
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && modal.classList.contains("is-open")) {
+    if (event.key !== "Escape") {
+      return;
+    }
+
+    /*
+      If size dropdown is open, close it first.
+    */
+    const openDropdown = grid.querySelector(
+      ".gift-grid__size-dropdown.is-open",
+    );
+
+    if (openDropdown) {
+      openDropdown.classList.remove("is-open");
+
+      const trigger = openDropdown.querySelector(
+        ".gift-grid__size-dropdown-trigger",
+      );
+
+      if (trigger) {
+        trigger.setAttribute("aria-expanded", "false");
+      }
+
+      return;
+    }
+
+    /*
+      Otherwise close the modal.
+    */
+    if (modal.classList.contains("is-open")) {
       closeModal();
     }
   });
