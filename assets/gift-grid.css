@@ -1,0 +1,1053 @@
+/* =========================================================
+   GIFT GUIDE GRID
+   ========================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Lustria&display=swap");
+/* =========================================================
+   SECTION
+   ========================================================= */
+
+.gift-grid {
+  width: 100%;
+  background: #ffffff;
+  font-family: "Jost", sans-serif;
+  box-sizing: border-box;
+}
+
+.gift-grid *,
+.gift-grid *::before,
+.gift-grid *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.gift-grid__inner {
+  width: min(1337px, calc(100% - 64px));
+  margin: 0 auto;
+
+  padding-top: 58px;
+  padding-bottom: 58px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* =========================================================
+   HEADING
+   ========================================================= */
+
+.gift-grid__heading {
+  width: 372px;
+  height: 43px;
+
+  margin: 0;
+
+  font-family: "Lustria", serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: 0;
+
+  color: #000000;
+
+  flex: 0 0 43px;
+}
+
+/* =========================================================
+   IMAGE GRID
+   ========================================================= */
+
+.gift-grid__items {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, 444px);
+
+  column-gap: 20px;
+  row-gap: 20px;
+}
+
+/* =========================================================
+   GRID ITEM
+   ========================================================= */
+
+.gift-grid__item {
+  position: relative;
+
+  width: 100%;
+  height: 444px;
+
+  overflow: hidden;
+}
+
+/* =========================================================
+   GRID IMAGE
+   ========================================================= */
+
+.gift-grid__image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  margin: 0;
+}
+
+/* =========================================================
+   HOTSPOT
+   ========================================================= */
+
+.gift-grid__hotspot {
+  position: absolute;
+
+  width: 22px;
+  height: 22px;
+
+  padding: 0;
+  margin: 0;
+
+  transform: translate(-50%, -50%);
+
+  border: 1.5px solid #000000;
+  border-radius: 50%;
+
+  background: rgba(248, 248, 248, 0.9);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  z-index: 2;
+
+  box-sizing: border-box;
+}
+
+.gift-grid__hotspot span {
+  position: relative;
+
+  display: block;
+
+  width: 8.46px;
+  height: 8.46px;
+
+  margin: 0;
+  padding: 0;
+
+  font-size: 0;
+  line-height: 0;
+
+  transform: none;
+}
+
+/* Horizontal line */
+.gift-grid__hotspot span::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 50%;
+
+  width: 8.46px;
+  height: 1.5px;
+
+  background: #000000;
+
+  transform: translateY(-50%);
+}
+
+/* Vertical line */
+.gift-grid__hotspot span::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  top: 0;
+
+  width: 1.5px;
+  height: 8.46px;
+
+  background: #000000;
+
+  transform: translateX(-50%);
+}
+
+.gift-grid__hotspot:hover {
+  transform: translate(-50%, -50%);
+}
+
+/* =========================================================
+   PRODUCT MODAL
+   ========================================================= */
+
+.gift-grid__modal {
+  position: fixed;
+  inset: 0;
+
+  display: none;
+
+  z-index: 9999;
+}
+
+.gift-grid__modal.is-open {
+  display: block;
+}
+
+/* =========================================================
+   OVERLAY
+   ========================================================= */
+
+.gift-grid__modal-overlay {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.gift-grid__modal-content {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 311px;
+  height: 447px;
+
+  padding: 36px 17px 0;
+
+  background: #ffffff;
+
+  display: grid;
+
+  grid-template-columns: 120px 1fr;
+  column-gap: 8px;
+
+  align-content: start;
+
+  overflow: hidden;
+
+  scrollbar-width: none;
+
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+}
+
+.gift-grid__modal-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* =========================================================
+   CLOSE
+   ========================================================= */
+
+.gift-grid__modal-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+
+  width: 18px;
+  height: 18px;
+
+  padding: 0;
+  margin: 0;
+
+  border: 0;
+  background: transparent;
+
+  font-size: 0;
+  color: transparent;
+
+  cursor: pointer;
+  z-index: 5;
+}
+
+.gift-grid__modal-close::before,
+.gift-grid__modal-close::after {
+  content: "";
+  position: absolute;
+
+  width: 12px;
+  height: 1.5px;
+
+  background: #000;
+  left: 3px;
+  top: 8px;
+}
+
+.gift-grid__modal-close::before {
+  transform: rotate(45deg);
+}
+
+.gift-grid__modal-close::after {
+  transform: rotate(-45deg);
+}
+
+/* =========================================================
+   IMAGE
+   ========================================================= */
+
+.gift-grid__modal-image-wrap {
+  grid-column: 1;
+  grid-row: 1;
+
+  width: 120px;
+  height: 140px;
+
+  margin: 0;
+}
+
+.gift-grid__modal-image {
+  display: block;
+
+  width: 120px;
+  height: 140px;
+
+  object-fit: cover;
+}
+
+/* =========================================================
+   INFO
+   We use display: contents so the existing Liquid
+   structure can participate directly in the grid.
+   ========================================================= */
+
+.gift-grid__modal-info {
+  display: contents;
+}
+
+/* =========================================================
+   PRODUCT TEXT
+   ========================================================= */
+
+.gift-grid__modal-vendor {
+  grid-column: 2;
+  grid-row: 1;
+
+  margin: 0 0 4px;
+
+  align-self: start;
+
+  font-family: "Jost", sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 13px;
+
+  color: #555555;
+
+  text-transform: uppercase;
+}
+
+.gift-grid__modal-title {
+  grid-column: 2;
+  grid-row: 1;
+
+  width: 136px;
+  height: 19px;
+
+  margin: 13px 0 0;
+
+  align-self: start;
+
+  font-family: "Jost", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 120%;
+  letter-spacing: 0;
+
+  color: #000000;
+}
+
+.gift-grid__modal-price {
+  grid-column: 2;
+  grid-row: 1;
+
+  width: 64px;
+  height: 19px;
+
+  margin: 52px 0 0;
+
+  align-self: start;
+
+  font-family: "Lustria", serif;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 120%;
+  letter-spacing: 0;
+
+  color: #000000;
+}
+
+.gift-grid__modal-description {
+  grid-column: 2;
+  grid-row: 1;
+
+  width: 146px;
+  height: 60px;
+
+  margin: 70px 0 0;
+
+  align-self: start;
+
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 110%;
+  letter-spacing: -0.14px;
+
+  color: #000000;
+}
+
+/* =========================================================
+   VARIANTS
+   Full popup width
+   ========================================================= */
+
+.gift-grid__variant-area {
+  grid-column: 1 / -1;
+  grid-row: 2;
+
+  width: 100%;
+
+  margin-top: 8px;
+  margin-bottom: 18px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.gift-grid__variant-group {
+  width: 100%;
+}
+
+.gift-grid__variant-label {
+  display: block;
+
+  margin: 0 0 4px;
+
+  font-family: "Jost", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 14px;
+
+  color: #333333;
+}
+
+.gift-grid__variant-select {
+  width: 100%;
+  height: 36px;
+
+  padding: 0 9px;
+
+  border: 1px solid #999999;
+  border-radius: 0;
+
+  background: #ffffff;
+
+  font-family: "Jost", sans-serif;
+  font-size: 12px;
+  line-height: 36px;
+
+  color: #000000;
+}
+
+/* =========================================================
+   ADD TO CART
+   ========================================================= */
+
+.gift-grid__add-button {
+  grid-column: 1 / -1;
+  grid-row: 3;
+
+  width: 271px;
+  height: 45px;
+
+  padding: 0;
+
+  margin-top: 30px;
+
+  border: 0;
+  border-radius: 0;
+
+  background: #000000;
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 20px;
+
+  font-family: "Jost", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20.48px;
+  letter-spacing: 0;
+
+  cursor: pointer;
+}
+
+.gift-grid__add-button:hover {
+  opacity: 0.85;
+}
+
+.gift-grid__add-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   ADD ARROW
+   ========================================================= */
+
+.gift-grid__add-arrow {
+  position: absolute;
+
+  right: 55px;
+
+  width: 33px;
+  height: 1.5px;
+
+  background: #ffffff;
+}
+
+.gift-grid__add-arrow::after {
+  content: "";
+
+  position: absolute;
+
+  right: 0;
+  top: -3px;
+
+  width: 7px;
+  height: 7px;
+
+  border-top: 2px solid #ffffff;
+  border-right: 2px solid #ffffff;
+
+  transform: rotate(45deg);
+}
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+.gift-grid__modal-message {
+  grid-column: 1 / -1;
+
+  width: 100%;
+
+  margin: 8px 0 0;
+
+  font-family: "Jost", sans-serif;
+  font-size: 10px;
+  line-height: 13px;
+}
+
+/* =========================================================
+   FIGMA COLOR BUTTONS
+   ========================================================= */
+
+.gift-grid__color-buttons {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  width: 271px;
+  height: 40.44px;
+
+  border: 0.5px solid #000;
+
+  overflow: hidden;
+}
+
+/* =========================================================
+   SLIDING BLACK SELECTION
+   ========================================================= */
+
+.gift-grid__color-buttons::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 50%;
+  height: 100%;
+
+  background: #000;
+
+  transform: translateX(calc(var(--selected-index, 0) * 100%));
+
+  opacity: 0;
+
+  transition:
+    transform 0.3s ease,
+    opacity 0.15s ease;
+
+  z-index: 0;
+  pointer-events: none;
+}
+
+.gift-grid__color-buttons.has-selection::before {
+  opacity: 1;
+}
+
+/* =========================================================
+   INDIVIDUAL COLOR BUTTON
+   ========================================================= */
+
+.gift-grid__color-button {
+  position: relative;
+
+  width: 100%;
+  height: 39.44px;
+
+  margin: 0;
+  padding: 0 12px 0 17px;
+
+  border: 0;
+  border-radius: 0;
+
+  background: transparent;
+
+  color: #000;
+
+  font-family: "Jost", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  text-align: left;
+
+  z-index: 1;
+
+  transition: color 0.2s ease;
+}
+
+/* =========================================================
+   COLOR SWATCH
+   ========================================================= */
+
+.gift-grid__color-button::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 5px;
+  height: 100%;
+
+  background: var(--swatch-color);
+
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
+
+  z-index: 2;
+}
+
+/* =========================================================
+   SELECTED TEXT
+   ========================================================= */
+
+.gift-grid__color-button.is-selected {
+  color: #fff;
+}
+
+/* =========================================================
+   DIVIDER
+   ========================================================= */
+
+.gift-grid__color-button + .gift-grid__color-button {
+  border-left: 0.5px solid #000;
+}
+
+/* =========================================================
+   COLOR LABEL
+   ========================================================= */
+
+.gift-grid__color-group .gift-grid__variant-label {
+  display: block;
+
+  width: 33px;
+  height: 18px;
+
+  margin: 0 0 6.04px;
+  padding: 0;
+
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 130%;
+  letter-spacing: 0;
+
+  color: #333333;
+}
+
+/* =========================================================
+   SIZE GROUP
+   ========================================================= */
+
+.gift-grid__size-group {
+  width: 271px;
+  min-height: 64px;
+}
+
+/* =========================================================
+   SIZE LABEL
+   ========================================================= */
+
+.gift-grid__size-group .gift-grid__variant-label {
+  display: block;
+
+  width: 33px;
+  height: 18px;
+
+  margin: 0 0 6px;
+  padding: 0;
+
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 130%;
+  letter-spacing: 0;
+
+  color: #333333;
+}
+
+/* =========================================================
+   CUSTOM SIZE DROPDOWN
+   ========================================================= */
+
+.gift-grid__size-dropdown {
+  position: relative;
+
+  width: 271px;
+  height: 40px;
+
+  z-index: 100;
+}
+
+/* =========================================================
+   TRIGGER
+   ========================================================= */
+
+.gift-grid__size-dropdown-trigger {
+  position: relative;
+
+  width: 271px;
+  height: 40px;
+
+  margin: 0;
+  padding: 0 48px 0 14px;
+
+  border: 0.5px solid #000000;
+  border-radius: 0;
+
+  background: #ffffff;
+  color: #000000;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  font-family: "Jost", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+/* =========================================================
+   VALUE
+   ========================================================= */
+
+.gift-grid__size-dropdown-value {
+  display: block;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================================================
+   ARROW AREA
+   ========================================================= */
+
+.gift-grid__size-dropdown-arrow {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  width: 40px;
+  height: 39px;
+
+  border-left: 0.5px solid #000000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================================
+   ARROW
+   ========================================================= */
+
+.gift-grid__size-dropdown-arrow::before {
+  content: "";
+
+  width: 8px;
+  height: 8px;
+
+  border-right: 1px solid #000000;
+  border-bottom: 1px solid #000000;
+
+  transform: rotate(45deg);
+
+  transition: transform 0.2s ease;
+}
+
+.gift-grid__size-dropdown.is-open .gift-grid__size-dropdown-arrow::before {
+  transform: rotate(225deg);
+}
+
+/* =========================================================
+   OPTIONS
+   ========================================================= */
+
+.gift-grid__size-dropdown-options {
+  position: absolute;
+
+  left: 0;
+  top: 40px;
+
+  width: 271px;
+  height: 99px;
+
+  background: #ffffff;
+
+  border-left: 0.5px solid #000000;
+  border-right: 0.5px solid #000000;
+  border-bottom: 0.5px solid #000000;
+
+  display: none;
+
+  z-index: 101;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: none;
+}
+
+/* Chrome / Safari / Edge */
+.gift-grid__size-dropdown-options::-webkit-scrollbar {
+  display: none;
+}
+
+/* =========================================================
+   SHOW OPTIONS
+   ========================================================= */
+
+.gift-grid__size-dropdown.is-open .gift-grid__size-dropdown-options {
+  display: block;
+}
+
+/* =========================================================
+   SIZE OPTION
+   ========================================================= */
+
+.gift-grid__size-dropdown-option {
+  width: 100%;
+  height: 33px;
+  min-height: 33px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  border-radius: 0;
+
+  background: #ffffff;
+  color: #000000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: "Jost", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 33px;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.gift-grid__size-dropdown-option:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+.gift-grid__size-dropdown-option.is-selected {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media screen and (max-width: 749px) {
+  .gift-grid__inner {
+    width: 100%;
+    margin: 0;
+
+    padding: 22px 10px 16px;
+
+    gap: 22px;
+  }
+
+  /* Mobile heading */
+
+  .gift-grid__heading {
+    width: 100%;
+    height: auto;
+
+    text-align: center;
+
+    font-family: "Lustria", serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+
+    flex: none;
+  }
+
+  /* Mobile:
+     2 columns × 3 rows
+  */
+
+  .gift-grid__items {
+    width: 100%;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, auto);
+
+    column-gap: 2px;
+    row-gap: 2px;
+  }
+
+  .gift-grid__item {
+    width: 100%;
+    height: auto;
+
+    aspect-ratio: 1 / 1;
+  }
+
+  .gift-grid__image {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+  }
+
+  /* Mobile hotspot */
+
+  .gift-grid__hotspot {
+    width: 15.71px;
+    height: 15.71px;
+
+    top: 18px !important;
+    left: auto !important;
+    right: 55px !important;
+
+    transform: none;
+    border: none;
+    background: rgba(248, 248, 248, 0.9);
+  }
+
+  .gift-grid__hotspot:hover {
+    transform: none;
+  }
+
+  .gift-grid__hotspot span {
+    width: 8.46px;
+    height: 8.46px;
+    font-size: 0;
+  }
+
+  /* Mobile modal */
+
+  /* =========================================================
+   MOBILE MODAL
+   ========================================================= */
+
+  .gift-grid__modal-content {
+    width: 311px;
+    height: 447px;
+
+    max-width: calc(100% - 24px);
+    max-height: calc(100vh - 24px);
+
+    padding: 36px 17px 0;
+
+    overflow: hidden;
+
+    grid-template-columns: 120px 146px;
+    column-gap: 8px;
+  }
+
+  .gift-grid__modal-image-wrap {
+    width: 120px;
+    height: 140px;
+  }
+
+  .gift-grid__modal-image {
+    width: 120px;
+    height: 140px;
+    object-fit: cover;
+  }
+
+  .gift-grid__modal-title {
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
