@@ -6,13 +6,13 @@
   ========================================== -->
 
   <div class="gift-banner__topbar">
+    <button type="button" class="gift-banner__mobile-menu" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <div class="gift-banner__brand">
-      <img
-        src="{{ 'tisso.png' | asset_url }}"
-        alt="TISSO VISION"
-        width="151.44px"
-        height="19px"
-      >
+      <img src="{{ 'tisso.png' | asset_url }}" alt="TISSO VISION" width="151.44px" height="19px">
     </div>
 
     <div class="gift-banner__top-message">
@@ -69,16 +69,9 @@
 
     <div class="gift-banner__bottom-art">
       <picture>
-        <source
-          media="(max-width: 749px)"
-          srcset="{{ 'gift-background-mobile.png' | asset_url }}"
-        >
+        <source media="(max-width: 749px)" srcset="{{ 'gift-background-mobile.png' | asset_url }}">
 
-        <img
-          src="{{ 'gift-guide-bottom.png' | asset_url }}"
-          alt=""
-          loading="lazy"
-        >
+        <img src="{{ 'gift-guide-bottom.png' | asset_url }}" alt="" loading="lazy">
       </picture>
     </div>
   </div>
@@ -97,6 +90,32 @@
     </span>
   </div>
 </section>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const banner = document.querySelector(".gift-banner");
+
+    if (!banner) return;
+
+    const topbar = banner.querySelector(".gift-banner__topbar");
+    const menuButton = banner.querySelector(".gift-banner__mobile-menu");
+
+    if (!topbar || !menuButton) return;
+
+    menuButton.addEventListener("click", () => {
+      const isOpen = topbar.classList.toggle("is-mobile-menu-open");
+
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+
+      menuButton.setAttribute(
+        "aria-label",
+        isOpen ? "Close menu" : "Open menu"
+      );
+    });
+  });
+</script>
+
 
 {% schema %}
 {
