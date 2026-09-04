@@ -1096,7 +1096,7 @@ function initGiftGrid(grid) {
       Black + M automatically adds it.
     */
     fetchProduct(
-      "soft-winter-jacket",
+      "dark-winter-jacket",
     )
       .then((jacket) => {
         const imageUrl =
