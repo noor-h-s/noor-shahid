@@ -216,7 +216,6 @@
 
 /* =========================================================
    MODAL
-   Figma-style compact popup
    ========================================================= */
 
 .gift-grid__modal-content {
@@ -993,8 +992,20 @@
   /* Mobile hotspot */
 
   .gift-grid__hotspot {
-    width: 22px;
-    height: 22px;
+    width: 15.71px;
+    height: 15.71px;
+
+    top: 18px !important;
+    left: auto !important;
+    right: 55px !important;
+
+    transform: none;
+    border: none;
+    background: rgba(248, 248, 248, 0.9);
+  }
+
+  .gift-grid__hotspot:hover {
+    transform: none;
   }
 
   .gift-grid__hotspot span {

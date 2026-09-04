@@ -477,7 +477,7 @@ function initGiftGrid(grid) {
       const shouldAddJacket =
         variant.options &&
         variant.options.includes("Black") &&
-        variant.options.includes("Medium");
+        variant.options.includes("M");
 
       if (shouldAddJacket) {
         await addSoftWinterJacket();
@@ -538,7 +538,7 @@ function initGiftGrid(grid) {
         ? window.Shopify.routes.root
         : "/";
 
-    const response = await fetch(`${root}products/soft-winter-jacket.js`);
+    const response = await fetch(`${root}products/dark-winter-jacket.js`);
 
     if (!response.ok) {
       throw new Error("Soft Winter Jacket not found.");
