@@ -32,49 +32,49 @@
         "product_wYQtV6": {
           "type": "product",
           "settings": {
-            "product": "",
-            "hotspot_x": 85,
-            "hotspot_y": 50
+            "product": "black-leather-bag",
+            "hotspot_x": 65,
+            "hotspot_y": 56
           }
         },
         "product_khaVXM": {
           "type": "product",
           "settings": {
-            "product": "",
-            "hotspot_x": 85,
-            "hotspot_y": 50
+            "product": "blue-silk-tuxedo",
+            "hotspot_x": 92,
+            "hotspot_y": 52
           }
         },
         "product_PHwHVb": {
           "type": "product",
           "settings": {
-            "product": "",
-            "hotspot_x": 85,
-            "hotspot_y": 50
+            "product": "chequered-red-shirt",
+            "hotspot_x": 64,
+            "hotspot_y": 20
           }
         },
         "product_9NeiAD": {
           "type": "product",
           "settings": {
-            "product": "",
-            "hotspot_x": 85,
-            "hotspot_y": 50
+            "product": "classic-leather-jacket",
+            "hotspot_x": 75,
+            "hotspot_y": 17
           }
         },
         "product_jHKKh8": {
           "type": "product",
           "settings": {
-            "product": "",
-            "hotspot_x": 85,
-            "hotspot_y": 50
+            "product": "classic-varsity-top",
+            "hotspot_x": 50,
+            "hotspot_y": 25
           }
         },
         "product_GNjYHK": {
           "type": "product",
           "settings": {
-            "product": "",
-            "hotspot_x": 85,
-            "hotspot_y": 50
+            "product": "dark-denim-top",
+            "hotspot_x": 81,
+            "hotspot_y": 38
           }
         }
       },
