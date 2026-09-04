@@ -9,7 +9,9 @@
       "blocks": {
         "product_1": {
           "type": "product",
-          "settings": {}
+          "settings": {
+              "product": "black-leather-bag"
+          }
         },
         "product_2": {
           "type": "product",
