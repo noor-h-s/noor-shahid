@@ -838,7 +838,7 @@ function initGiftGrid(grid) {
     */
     const jacket =
       await fetchProduct(
-        "soft-winter-jacket",
+        "dark-winter-jacket",
       );
 
     const availableVariant =
